@@ -13,11 +13,11 @@ import com.loc.newsapp.presentation.onboarding.components.OnBoardingPage
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun OnBoardingScreen(modifier: Modifier = Modifier) {
+fun OnBoardingScreen() {
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        var pagerState = rememberPagerState(initialPage = 0) {
+        val pagerState = rememberPagerState(initialPage = 0) {
             pages.size
         }
 
