@@ -9,6 +9,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import com.loc.newsapp.util.Constants.USER_SETTINGS
 import com.loc.newsapp.domain.manager.LocalUserManager
 import com.loc.newsapp.util.Constants
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class LocalUserManagerImpl (
@@ -27,7 +28,7 @@ class LocalUserManagerImpl (
         }
     }
 
-    override fun readAppEntry() {
+    override fun readAppEntry(): Flow<Boolean> {
         return context.dataStore.data.map { preferences ->
             preferences[PreferenceKeys.APP_ENTRY] ?: false
         }
