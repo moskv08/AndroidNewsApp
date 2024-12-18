@@ -4,7 +4,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.loc.newsapp.domain.model.Article
 
-class NewPagingSource(
+class NewsPagingSource(
     private val newsApi: NewsApi,
     private val sources: String
 ): PagingSource<Int, Article>() {
@@ -12,7 +12,10 @@ class NewPagingSource(
     private var totalNewsCount = 0
 
     override fun getRefreshKey(state: PagingState<Int, Article>): Int? {
-        TODO("Not yet implemented")
+        return state.anchorPosition?.let { anchorPosition ->
+            val anchorPage = state.closestPageToPosition(anchorPosition)
+            anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
+        }
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Article> {
