@@ -10,6 +10,8 @@ jobs:
   start:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
 
       - name: Run sample script
-        uses: echo "Hello, world"
+        run: echo "Hello, world"
