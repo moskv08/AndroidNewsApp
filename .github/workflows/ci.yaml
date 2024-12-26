@@ -8,21 +8,20 @@ on:
 
 jobs:
   start:
-    name: Initial setup
+    name: Initial Setup Job
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout the code
         uses: actions/checkout@v2
 
-      - name: Comment
-        run: echo "Let's roll!"
-
-      - name: Check Android SDK Installation
-        run: echo $ANDROID_HOME
-
-      - name: List Android SDK Components
-        run: sdkmanager --list
+      - name: Set up Android SDK
+        env:
+          ANDROID_HOME: ${{ secrets.ANDROID_HOME }}
+        run: |
+          echo "ANDROID_HOME=$ANDROID_HOME"
+          echo "PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$PATH"
+          sdkmanager --list
 
   lint:
     name: Lint Job
