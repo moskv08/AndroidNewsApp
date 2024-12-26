@@ -28,9 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Generate local.properties
-      - run: |
-      - echo "sdk.dir=/usr/local/android-sdk" > local.properties
-
+      - run: echo "sdk.dir=/usr/local/android-sdk" > local.properties
 
       - name: Checkout the code
         uses: actions/checkout@v2
