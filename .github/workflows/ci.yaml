@@ -22,7 +22,7 @@ jobs:
 
       - name: Install Android SDK Command-line Tools
         env:
-          ANDROID_HOME: /usr/local/android-sdk
+          ANDROID_HOME: ${{ runner.temp }}/android-sdk
         run: |
           mkdir -p $ANDROID_HOME/cmdline-tools
           curl -o sdk-tools.zip https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
@@ -32,22 +32,22 @@ jobs:
 
       - name: Accept Licenses
         env:
-          ANDROID_HOME: /usr/local/android-sdk
+          ANDROID_HOME: ${{ runner.temp }}/android-sdk
         run: yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
 
       - name: Verify SDK Manager
         env:
-          ANDROID_HOME: /usr/local/android-sdk
+          ANDROID_HOME: ${{ runner.temp }}/android-sdk
         run: $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --list
 
       - name: Generate local.properties
-        run: echo "sdk.dir=/usr/local/android-sdk" > local.properties
+        run: echo "sdk.dir=${{ runner.temp }}/android-sdk" > local.properties
 
       - name: Run lint
         run: ./gradlew lintDebug -Pandroid.lintOptions.htmlReport=true -Pandroid.lintOptions.htmlOutput=app/build/reports/lint-results-debug.html
 
       - name: Upload lint report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: lint-report
           path: app/build/reports/lint-results-debug.html
