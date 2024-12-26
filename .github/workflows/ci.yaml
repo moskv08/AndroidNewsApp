@@ -7,30 +7,10 @@ on:
     branches: [main]
 
 jobs:
-  start:
-    name: Initial Setup Job
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout the code
-        uses: actions/checkout@v2
-
-      - name: Set up Android SDK
-        env:
-          ANDROID_HOME: ${{ secrets.ANDROID_HOME }}
-        run: |
-          echo "ANDROID_HOME=$ANDROID_HOME"
-          echo "PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$PATH"
-          sdkmanager --list
-
   lint:
-    name: Lint Job
     runs-on: ubuntu-latest
 
     steps:
-      - name: Generate local.properties
-        run: echo "sdk.dir=/usr/local/android-sdk" > local.properties
-
       - name: Checkout the code
         uses: actions/checkout@v2
 
@@ -39,6 +19,29 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '17'
+
+      - name: Install Android SDK Command-line Tools
+        env:
+          ANDROID_HOME: /usr/local/android-sdk
+        run: |
+          mkdir -p $ANDROID_HOME/cmdline-tools
+          curl -o sdk-tools.zip https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
+          unzip sdk-tools.zip -d $ANDROID_HOME/cmdline-tools
+          mv $ANDROID_HOME/cmdline-tools/cmdline-tools $ANDROID_HOME/cmdline-tools/latest
+          rm sdk-tools.zip
+
+      - name: Accept Licenses
+        env:
+          ANDROID_HOME: /usr/local/android-sdk
+        run: yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
+
+      - name: Verify SDK Manager
+        env:
+          ANDROID_HOME: /usr/local/android-sdk
+        run: $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --list
+
+      - name: Generate local.properties
+        run: echo "sdk.dir=/usr/local/android-sdk" > local.properties
 
       - name: Run lint
         run: ./gradlew lintDebug -Pandroid.lintOptions.htmlReport=true -Pandroid.lintOptions.htmlOutput=app/build/reports/lint-results-debug.html
