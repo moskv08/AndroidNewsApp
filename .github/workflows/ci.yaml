@@ -25,7 +25,9 @@ jobs:
         run: sdkmanager --list
 
   lint:
+    name: Lint Job
     runs-on: ubuntu-latest
+
     steps:
       - name: Generate local.properties
       - run: echo "sdk.dir=/usr/local/android-sdk" > local.properties

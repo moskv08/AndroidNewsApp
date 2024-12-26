@@ -1,6 +1,7 @@
 # Android News App
 An Android app built with Jetpack Compose and the latest android libraries.
 
+[![.github/workflows/ci.yaml](https://github.com/moskv08/AndroidNewsApp/actions/workflows/ci.yaml/badge.svg)](https://github.com/moskv08/AndroidNewsApp/actions/workflows/ci.yaml)
 
 ## CI Pipeline
 
