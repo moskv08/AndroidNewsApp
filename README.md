@@ -12,3 +12,11 @@ This CI pipeline consists of the following steps:
 * Instrumentation Tests 
 * Static Code Analysis 
 * Build Debug apk (Packaging)
+
+> Note: Make gradlew Executable
+
+Locally, navigate to the root of your project where the gradlew file resides, and run the following command:
+````bash
+chmod +x gradlew
+````
+
