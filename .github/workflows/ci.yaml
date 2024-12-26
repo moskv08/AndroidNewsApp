@@ -13,5 +13,20 @@ jobs:
       - name: Checkout the code
         uses: actions/checkout@v2
 
-      - name: Run sample script
-        run: echo "Hello, world"
+      - name: Comment
+        run: echo "Let's roll!"
+  lint:
+    name: Perform lint check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
+
+      - name: Run lint
+        uses: ./gradlew lintDebug
+
+      - name: Upload html test report
+        uses: actions/upload-artifact@v2
+        with:
+          name: lint.html
+          path: app/build/reports/lint-results-debug.html
