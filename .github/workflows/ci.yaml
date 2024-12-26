@@ -17,7 +17,7 @@ jobs:
 
       - name: Comment
         run: echo "Let's roll!"
-        
+
   lint:
     name: Perform lint check
     runs-on: ubuntu-latest
@@ -36,7 +36,7 @@ jobs:
         run: ./gradlew lintDebug
 
       - name: Upload lint report
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: lint-report
           path: app/build/reports/lint-results-debug.html
