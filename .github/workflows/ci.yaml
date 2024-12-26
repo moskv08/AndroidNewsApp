@@ -8,10 +8,11 @@ on:
 
 jobs:
   start:
+    name: Initial setup
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Comment
         run: echo "Let's roll!"
@@ -20,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Run lint
         uses: ./gradlew lintDebug
