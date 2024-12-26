@@ -10,24 +10,33 @@ jobs:
   start:
     name: Initial setup
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout the code
         uses: actions/checkout@v2
 
       - name: Comment
         run: echo "Let's roll!"
+        
   lint:
     name: Perform lint check
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout the code
         uses: actions/checkout@v2
 
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17' # Use the Java version for your project
+
       - name: Run lint
         run: ./gradlew lintDebug
 
-      - name: Upload html test report
-        uses: actions/upload-artifact@v4
+      - name: Upload lint report
+        uses: actions/upload-artifact@v2
         with:
-          name: lint.html
+          name: lint-report
           path: app/build/reports/lint-results-debug.html
