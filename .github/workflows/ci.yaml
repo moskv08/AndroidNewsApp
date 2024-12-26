@@ -18,25 +18,24 @@ jobs:
       - name: Comment
         run: echo "Let's roll!"
 
-  lint:
-    name: Perform lint check
-    runs-on: ubuntu-latest
+lint:
+  runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout the code
-        uses: actions/checkout@v2
+  steps:
+    - name: Checkout the code
+      uses: actions/checkout@v2
 
-      - name: Set up JDK
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'zulu'
-          java-version: '17' # Use the Java version for your project
+    - name: Set up JDK
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'zulu'
+        java-version: '17'
 
-      - name: Run lint
-        run: ./gradlew lintDebug
+    - name: Run lint
+      run: ./gradlew lintDebug -Pandroid.lintOptions.htmlReport=true -Pandroid.lintOptions.htmlOutput=app/build/reports/lint-results-debug.html
 
-      - name: Upload lint report
-        uses: actions/upload-artifact@v4
-        with:
-          name: lint-report
-          path: app/build/reports/lint-results-debug.html
+    - name: Upload lint report
+      uses: actions/upload-artifact@v2
+      with:
+        name: lint-report
+        path: app/build/reports/lint-results-debug.html
