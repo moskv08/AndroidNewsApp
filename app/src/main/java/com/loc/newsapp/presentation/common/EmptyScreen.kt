@@ -92,7 +92,6 @@ fun EmptyContent(alphaAnim: Float, message: String, iconId: Int) {
     }
 }
 
-
 fun parseErrorMessage(error: LoadState.Error?): String {
     return when (error?.error) {
         is SocketTimeoutException -> {

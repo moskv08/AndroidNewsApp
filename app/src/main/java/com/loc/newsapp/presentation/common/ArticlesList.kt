@@ -1,5 +1,6 @@
 package com.loc.newsapp.presentation.common
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -10,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
+import androidx.paging.log
 import com.loc.newsapp.domain.model.Article
 import com.loc.newsapp.presentation.Dimensions.ExtraSmallPadding2
 import com.loc.newsapp.presentation.Dimensions.MediumPadding1
@@ -56,6 +58,7 @@ fun handlePagingResult(articles: LazyPagingItems<Article>): Boolean {
         }
 
         error != null -> {
+            Log.d("WTF", error.error.toString())
             EmptyScreen(error = error)
             false
         }
