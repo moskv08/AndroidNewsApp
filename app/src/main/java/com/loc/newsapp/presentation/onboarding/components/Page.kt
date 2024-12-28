@@ -1,6 +1,5 @@
-package com.loc.newsapp.presentation.onboarding
+package com.loc.newsapp.presentation.onboarding.components
 
-import android.media.Image
 import androidx.annotation.DrawableRes
 import com.loc.newsapp.R
 
