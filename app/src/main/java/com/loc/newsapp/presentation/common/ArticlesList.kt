@@ -11,10 +11,28 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
-import androidx.paging.log
 import com.loc.newsapp.domain.model.Article
 import com.loc.newsapp.presentation.Dimensions.ExtraSmallPadding2
 import com.loc.newsapp.presentation.Dimensions.MediumPadding1
+
+@Composable
+fun ArticlesList(
+    modifier: Modifier = Modifier,
+    articles: List<Article>,
+    onClick:(Article) -> Unit
+) {
+
+    LazyColumn(
+        modifier = modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(MediumPadding1),
+        contentPadding = PaddingValues(all = ExtraSmallPadding2)
+    ) {
+        items( count = articles.size ) {
+            val article = articles[it]
+            ArticleCard(article = article, onClick = {onClick(article)})
+        }
+    }
+}
 
 @Composable
 fun ArticlesList(
