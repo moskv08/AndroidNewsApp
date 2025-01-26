@@ -5,7 +5,7 @@ import androidx.room.Room
 import com.loc.newsapp.data.local.datastore.LocalUserManagerImpl
 import com.loc.newsapp.data.local.room.NewsDatabase
 import com.loc.newsapp.data.local.room.NewsTypeConverter
-import com.loc.newsapp.data.local.room.dao.NewsDao
+import com.loc.newsapp.data.local.room.NewsDao
 import com.loc.newsapp.data.remote.NewsApi
 import com.loc.newsapp.data.repository.NewsRepositoryImpl
 import com.loc.newsapp.domain.manager.LocalUserManager
@@ -17,6 +17,7 @@ import com.loc.newsapp.domain.usecases.news.GetNews
 import com.loc.newsapp.domain.usecases.news.NewsUseCases
 import com.loc.newsapp.domain.usecases.news.SearchNews
 import com.loc.newsapp.domain.usecases.news.articles.DeleteArticle
+import com.loc.newsapp.domain.usecases.news.articles.SelectArticle
 import com.loc.newsapp.domain.usecases.news.articles.SelectArticles
 import com.loc.newsapp.domain.usecases.news.articles.UpsertArticle
 import com.loc.newsapp.util.Constants.BASE_URL
@@ -75,7 +76,8 @@ object AppModule {
             searchNews = SearchNews(newsRepository),
             upsertArticle = UpsertArticle(newsDao),
             deleteArticle = DeleteArticle(newsDao),
-            selectArticles = SelectArticles(newsDao)
+            selectArticles = SelectArticles(newsDao),
+            selectArticle = SelectArticle(newsDao)
         )
     }
 

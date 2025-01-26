@@ -1,4 +1,4 @@
-package com.loc.newsapp.data.local.room.dao
+package com.loc.newsapp.data.local.room
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -20,4 +20,6 @@ interface NewsDao {
     @Query("SELECT * FROM Article")
     fun getArticles(): Flow<List<Article>>
 
+    @Query("SELECT * FROM Article WHERE url = :url")
+    suspend fun getArticle(url: String): Article?
 }
