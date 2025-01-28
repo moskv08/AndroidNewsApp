@@ -19,15 +19,22 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.loc.newsapp.R
+import com.loc.newsapp.domain.model.Article
+import com.loc.newsapp.presentation.bookmark.BookmarkScreen
+import com.loc.newsapp.presentation.bookmark.BookmarkViewModel
+import com.loc.newsapp.presentation.details.DetailsScreen
+import com.loc.newsapp.presentation.details.DetailsViewModel
 import com.loc.newsapp.presentation.home.HomeScreen
 import com.loc.newsapp.presentation.home.HomeViewModel
 import com.loc.newsapp.presentation.navgraph.Route
 import com.loc.newsapp.presentation.news_navigation.components.BottomNavigationItem
 import com.loc.newsapp.presentation.news_navigation.components.NewsBottomNavigation
+import com.loc.newsapp.presentation.search.SearchScreen
+import com.loc.newsapp.presentation.search.SearchViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NewsNavigatorScreen(
+fun NewsNavigator(
     modifier: Modifier = Modifier
 ) {
     val bottomNavigationItems = remember {
@@ -94,14 +101,69 @@ fun NewsNavigatorScreen(
                 val articles = viewModel.news.collectAsLazyPagingItems()
                 HomeScreen(
                     articles = articles,
-                    navigate = {}
+                    navigateToSearch = {
+                        navigationToTab(
+                            navController = navController,
+                            route = Route.SearchScreen.route
+                        )
+                    },
+                    navigateToDetails = { article ->
+                        navigateToDetails(
+                            navController = navController,
+                            article = article
+                        )
+                    }
                 )
             }
+            composable(route = Route.SearchScreen.route){
+                val viewModel: SearchViewModel = hiltViewModel()
+                val state = viewModel.state.value
+
+                SearchScreen(
+                    state = state,
+                    event = viewModel::onEvent,
+                    navigateToDetails = {
+                        navigateToDetails(
+                            navController = navController,
+                            article = it
+                        )
+                    }
+                )
+            }
+
+            composable(route = Route.DetailsScreen.route){
+                val viewModel: DetailsViewModel = hiltViewModel()
+                // TODO: Handle Side effect
+                navController.previousBackStackEntry?.savedStateHandle?.get<Article?>("article")
+                    ?.let { article ->
+                        DetailsScreen(
+                            article = article,
+                            event = viewModel::onEvent,
+                            navigateUp = { navController.navigateUp() }
+                        )
+                }
+            }
+
+            composable(route = Route.BookmarkScreen.route){
+                val viewModel: BookmarkViewModel = hiltViewModel()
+                val state = viewModel.state.value
+
+                BookmarkScreen(
+                    state = state,
+                    navigateToDetails = { article ->
+                        navigateToDetails(
+                            navController = navController,
+                            article = article
+                        )
+                    }
+                )
+            }
+
         }
     }
 }
 
-fun navigationToTab(navController: NavController, route: String){
+private fun navigationToTab(navController: NavController, route: String){
     navController.navigate(route){
         navController.graph.startDestinationRoute?.let { homeScreen ->
             popUpTo(homeScreen){
@@ -111,5 +173,14 @@ fun navigationToTab(navController: NavController, route: String){
             launchSingleTop = true
         }
     }
+}
 
+private fun navigateToDetails(
+    navController: NavController,
+    article: Article
+){
+    navController.currentBackStackEntry?.savedStateHandle?.set("article", article)
+    navController.navigate(
+        route = Route.DetailsScreen.route
+    )
 }
