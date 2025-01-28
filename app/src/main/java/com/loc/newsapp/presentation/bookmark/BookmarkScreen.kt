@@ -15,7 +15,6 @@ import com.loc.newsapp.R
 import com.loc.newsapp.domain.model.Article
 import com.loc.newsapp.presentation.Dimensions.MediumPadding1
 import com.loc.newsapp.presentation.common.ArticlesList
-import com.loc.newsapp.presentation.navgraph.Route
 
 @Composable
 fun BookmarkScreen(
