@@ -15,6 +15,7 @@ import com.loc.newsapp.domain.model.Article
 import com.loc.newsapp.presentation.Dimensions.ExtraSmallPadding2
 import com.loc.newsapp.presentation.Dimensions.MediumPadding1
 
+// Used in BookmarkScreen
 @Composable
 fun ArticlesList(
     modifier: Modifier = Modifier,
@@ -36,6 +37,7 @@ fun ArticlesList(
     }
 }
 
+// Used in SearchScreen
 @Composable
 fun ArticlesList(
     modifier: Modifier = Modifier,
@@ -79,6 +81,11 @@ fun handlePagingResult(articles: LazyPagingItems<Article>): Boolean {
 
         error != null -> {
             EmptyScreen(error = error)
+            false
+        }
+
+        articles.itemCount == 0 -> {
+            EmptyScreen()
             false
         }
 

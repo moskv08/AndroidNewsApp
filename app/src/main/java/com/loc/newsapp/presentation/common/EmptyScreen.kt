@@ -32,6 +32,7 @@ import androidx.paging.LoadState
 import com.loc.newsapp.R
 import java.net.ConnectException
 import java.net.SocketTimeoutException
+import java.net.UnknownHostException
 
 @Composable
 fun EmptyScreen(error: LoadState.Error? = null) {
@@ -99,7 +100,7 @@ fun parseErrorMessage(error: LoadState.Error?): String {
             "Server Unavailable."
         }
 
-        is ConnectException -> {
+        is UnknownHostException -> {
             "Internet Unavailable."
         }
 
